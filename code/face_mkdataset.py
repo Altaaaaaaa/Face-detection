@@ -21,7 +21,7 @@ count = 0
 while(True):
     ret, img = cam.read()
     #img = cv2.flip(img, -1) # flip video image vertically
-    gray = cv2.cvtColor(cv2.flip(img, 1), cv2.COLOR_BGR2RGB)
+    gray = cv2.cvtColor(cv2.flip(img, 1), cv2.COLOR_BGR2RGB) # 여기서 오류가 발생한다면 캠이 작동하지 않아서일 수도 있음
     faces = face_detector.detectMultiScale(gray,
         scaleFactor=1.2,
         minNeighbors=5,
@@ -31,7 +31,6 @@ while(True):
         count += 1
         # Save the captured image into the datasets folder
         #User 이름 폴더 안에 개수만큼 저장
-        #cv2.imwrite("dataset/" + str(face_id) + '/User_' + str(face_id) + str(count) + ".jpg", gray[y:y+h,x:x+w]) 
         cv2.imwrite("dataset/User." + str(face_id) + '.' + str(count) + ".jpg", gray[y:y+h,x:x+w])
         cv2.imshow('image', img)
     k = cv2.waitKey(100) & 0xff # Press 'ESC' for exiting video

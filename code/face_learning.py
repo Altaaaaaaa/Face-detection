@@ -10,7 +10,7 @@ from PIL import Image
 import os
 
 # Path for face image database
-# path = './testset'
+# path = './testset' # 테스트용
 path = './dataset'
 recognizer = cv2.face.LBPHFaceRecognizer_create()
 detector = cv2.CascadeClassifier("./opencv-master/data/haarcascades/haarcascade_frontalface_default.xml");

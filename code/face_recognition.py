@@ -19,7 +19,7 @@ id = 0
 
 # names related to ids: example ==> None2: id=2,  etc
 # 이런식으로 사용자의 이름을 사용자 수만큼 추가해준다.
-names = ['None0', 'jw', 'None2', 'None3', 'None4']
+names = ['None0', 'jw', 'jh', 'None3', 'None4']
 
 # Initialize and start realtime video capture
 cam = cv2.VideoCapture(0)
@@ -46,12 +46,12 @@ while True:
         cv2.rectangle(img, (x,y), (x+w,y+h), (0,255,0), 2)
         id, confidence = recognizer.predict(gray[y:y+h,x:x+w])
         # Check if confidence is less them 100 ==> "0" is perfect match
-        if (confidence < 100):
+        if (100 - confidence) > 35 and (100 - confidence) <= 100:
             id = names[id]
             confidence = "  {0}%".format(round(100 - confidence))
         else:
             id = "unknown"
-            confidence = "  {0}%".format(round(100 - confidence))
+            confidence = "  {0}%".format(round(100))
         
         cv2.putText(img, str(id), (x+5,y-5), font, 1, (255,255,255), 2)
         cv2.putText(img, str(confidence), (x+5,y+h-5), font, 1, (255,255,0), 1)  

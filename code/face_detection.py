@@ -10,7 +10,7 @@ import cv2
 # Cascades 디렉토리의 haarcascade_frontalface_default.xml 파일을 Classifier로 사용
 faceCascade = cv2.CascadeClassifier('./opencv-master/data/haarcascades/haarcascade_frontalface_default.xml')
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0) # 캠 사용
 cap.set(3,640) # set Width
 cap.set(4,480) # set Height
 
