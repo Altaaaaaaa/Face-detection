@@ -12,36 +12,32 @@ import os
 face_detector = cv2.CascadeClassifier("./opencv-master/data/haarcascades/haarcascade_frontalface_default.xml") # 경로 주의
 recognizer = cv2.face.LBPHFaceRecognizer_create()
 
-def datalrn(image_path):
+def data_learning(image_path, face_id):
+    face_dataset =  []
+    imagePaths = [f'{image_path}/{f}' for f in os.listdir(image_path)]
 
-    def data_learning(image_path):
-        face_dataset =  []
-        face_id = int(input('\n enter user id end press <return> ==>  ')) # 숫자만 가능
-        imagePaths = [f'{image_path}/{f}' for f in os.listdir(image_path)]
+    for imagePath in imagePaths:
+        img = Image.open(imagePath).convert('L')
+        img_numpy = np.array(img,'uint8')
+        faces = face_detector.detectMultiScale(img_numpy)
+        for (x,y,w,h) in faces: 
+            # Save the captured image into the datasets folder
+            #User 이름 폴더 안에 개수만큼 저장
 
-        for imagePath in imagePaths:
-            img = Image.open(imagePath).convert('L')
-            img_numpy = np.array(img,'uint8')
-            faces = face_detector.detectMultiScale(img_numpy)
-            for (x,y,w,h) in faces: 
-                # Save the captured image into the datasets folder
-                #User 이름 폴더 안에 개수만큼 저장
+            face_dataset.append(img_numpy[y:y+h,x:x+w])
 
-                face_dataset.append(img_numpy[y:y+h,x:x+w])
+    
+    recognizer.train(face_dataset, np.array([face_id]*len(face_dataset)))
 
-        
-        recognizer.train(face_dataset, np.array([face_id]*len(face_dataset)))
-
-        # Save the model into trainer/trainer.yml
-        recognizer.write('trainer/trainer.yml') # recognizer.save() worked on Mac, but not on Pi
-        # Print the numer of faces trained and end program
-        print("\n [INFO] {0} faces trained. Exiting Program".format(len(np.unique(face_id))))
-
-    image_path1 = input('\n enter image path : ')
-    data_learning(image_path1)
+    # Save the model into trainer/trainer.yml
+    recognizer.write('trainer/trainer.yml') # recognizer.save() worked on Mac, but not on Pi
+    # Print the numer of faces trained and end program
+    print("\n [INFO] {0} faces trained. Exiting Program".format(len(np.unique(face_id))))
 
 
-#datalrn("C:/Users/user/Desktop/JIONI/COSMIC/Face-detection/test/2113849/1234") #data 파일 있는 위치
+image_path = input('\n enter image path : ') #data 파일 있는 위치
+face_id = int(input('\n enter user id end press <return> ==>  ')) # 숫자만 가능
+data_learning(image_path)
 
 
 def face_recog():
