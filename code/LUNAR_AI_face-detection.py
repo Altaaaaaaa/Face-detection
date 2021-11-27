@@ -37,7 +37,7 @@ def data_learning(image_path, face_id):
 
 image_path = input('\n enter image path : ') #data 파일 있는 위치
 face_id = int(input('\n enter user id end press <return> ==>  ')) # 숫자만 가능
-data_learning(image_path)
+data_learning(image_path, face_id)
 
 
 def face_recog():
